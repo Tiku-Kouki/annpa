@@ -10,7 +10,8 @@ const int kWindowHeight = 1024;
 enum MapInfo {
 	NONE, // 0　(ブロックなし)
 	BLOCK, // 1　(ブロックあり)
-	BLOOD//2 (血)
+	BLOOD,//2 (血)
+	Galle//3　(ゴール)
 };
 
 //構造体の宣言 ここから
@@ -55,8 +56,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		TITLE,
 		TUTORIAL,
 		STAGE1,
+		RESULT1,
 		STAGE2,
+		RESULT2,
 		STAGE3,
+		RESULT3,
 		CLEAR,
 		GAMEOVER,
 	};
@@ -113,6 +117,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float degree = 0;
 	float rotate = 0;
 	float theta = 0;
+	int galle = 0;
+	int galleTimer = 0;
 
 	//色
 	unsigned int color = 0x0000FF64; //半透明の青
@@ -139,7 +145,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	float lineY = 0;
 
 	int scrollX = 0;
-	float backposX[4] = { 0.0f,800.0f,1600.0f,2400.0f };
+	
 	float monitorX = 0;
 
 	//スティック操作
@@ -171,8 +177,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,},
 		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,},
-		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,0,0,0,2,0,0,1,},
-		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,},
+		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,0,0,0,2,0,0,3,},
+		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,3,},
 		{1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
@@ -223,6 +229,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			}
 
+			//ゴール
+			if (map[y][x] == 3) {
+				block[y][x].state = Galle;
+			}
+
 		}
 	}
 
@@ -265,10 +276,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//チュートリアル
 		case TUTORIAL:
 
-			playerLife--;
-
+			if (galle == 0) {
+				playerLife--;
+			}
 			if (playerLife <= 0) {
-				
 				gamescene = GAMEOVER;
 			}
 			if (playerLife >= 1000) {
@@ -303,105 +314,120 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			playerPosOldX = player.pos.x;
 			playerPosOldY = player.pos.y;
 
-			//スティック操作
-			Novice::GetAnalogInputLeft(0, &stickPosX, &stickPosY);
+			if (galle == 0) {
+				//スティック操作
+				Novice::GetAnalogInputLeft(0, &stickPosX, &stickPosY);
 
-			//キーボード操作
-			if (keys[DIK_W] || stickPosY <= -3000) {
-				leftTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
-				rightTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
-				if (map[rightTopY][rightTopX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
+				//キーボード操作
+				if (keys[DIK_W] || stickPosY <= -3000) {
+					leftTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
+					rightTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
+					//ブロックに当たった時
+					if (map[rightTopY][rightTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map[leftTopY][leftTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.y -= player.speed;
+					}
 				}
-				else if (map[leftTopY][leftTopX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
+
+				if (keys[DIK_S] || stickPosY >= 3000) {
+					leftBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
+					rightBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
+					//ブロックに当たった時
+					if (map[leftBottomY][leftBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map[rightBottomY][rightBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.y += player.speed;
+					}
 				}
-				else {
-					player.pos.y -= player.speed;
+
+				if (keys[DIK_A] || stickPosX <= -3000) {
+					leftTopX = ((player.pos.x - player.speed) - player.radius) / blockSize;
+					leftBottomX = ((player.pos.x - player.speed) - player.radius) / blockSize;
+					//ブロックに当たった時
+					if (map[leftTopY][leftTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map[leftBottomY][leftBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.x -= player.speed;
+					}
+				}
+
+				if (keys[DIK_D] || stickPosX >= 3000) {
+					rightTopX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
+					rightBottomX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
+					//ブロックに当たった時
+					if (map[rightTopY][rightTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map[rightBottomY][rightBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.x += player.speed;
+					}
+					//ゴール
+					if (map[rightTopY][rightTopX] == Galle) {
+						galle = 1;
+					}
+					else if (map[rightBottomY][rightBottomX] == Galle) {
+						galle = 1;
+					}
+
 				}
 			}
-
-			if (keys[DIK_S] || stickPosY >= 3000) {
-				leftBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
-				rightBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
-				if (map[leftBottomY][leftBottomX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else if (map[rightBottomY][rightBottomX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else {
-					player.pos.y += player.speed;
-				}
-			}
-
-			if (keys[DIK_A] || stickPosX <= -3000) {
-				leftTopX = ((player.pos.x - player.speed) - player.radius) / blockSize;
-				leftBottomX = ((player.pos.x - player.speed) - player.radius) / blockSize;
-				if (map[leftTopY][leftTopX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else if (map[leftBottomY][leftBottomX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else {
-					player.pos.x -= player.speed;
-				}
-			}
-
-			if (keys[DIK_D] || stickPosX >= 3000) {
-				rightTopX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
-				rightBottomX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
-				if (map[rightTopY][rightTopX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else if (map[rightBottomY][rightBottomX] == BLOCK) {
-					player.pos.x = playerPosOldX;
-					player.pos.y = playerPosOldY;
-				}
-				else {
-					player.pos.x += player.speed;
-				}
-			}
+			//血の判定
 			if (map[leftTopY][leftTopX] == BLOOD) {
 
 				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
 					map[leftTopY][leftTopX] = NONE;
 					isBlood = 1;
 				}
-				
+
 			}
 			else
-				if (map[leftBottomY][leftBottomX] == BLOOD) {
+			if (map[leftBottomY][leftBottomX] == BLOOD) {
 					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
-						map[leftBottomY][leftBottomX] == NONE;
+						map[leftBottomY][leftBottomX] = NONE;
 						isBlood = 1;
 					}
-					
+
+			}
+			else
+			if (map[rightTopY][rightTopX] == BLOOD) {
+				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+					map[rightTopY][rightTopX] = NONE;
+						isBlood = 1;
 				}
-				else
-					if (map[rightTopY][rightTopX] == BLOOD) {
-						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
-							map[rightTopY][rightTopX] == NONE;
-							isBlood = 1;
-						}
-						
-					}
-					else
-						if (map[rightBottomY][rightBottomX] == BLOOD) {
-							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
-								map[rightBottomY][rightBottomX] == NONE;
-								isBlood = 1;
-							}
-							
-						}
+
+			}
+			else
+			if (map[rightBottomY][rightBottomX] == BLOOD) {
+				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+					map[rightBottomY][rightBottomX] = NONE;
+					isBlood = 1;
+				}
+
+			}
 			if (isBlood == 1) {
 
 				playerLife += 300;
@@ -409,55 +435,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 
 
-		
+			if (galle == 0) {
 
-			if (isbulletshot == 0) {
-				if (keys[DIK_A] || stickPosX <= -3000) {
-					charaDir = LEFT;
+				if (isbulletshot == 0) {
+					if (keys[DIK_A] || stickPosX <= -3000) {
+						charaDir = LEFT;
+					}
+					if (keys[DIK_D] || stickPosX >= 3000) {
+						charaDir = RIGHT;
+					}
 				}
-				if (keys[DIK_D] || stickPosX >= 3000) {
-					charaDir = RIGHT;
-				}
-			}
-			if (canShot == 1) {
-				//プレイヤーが左向きに弾を撃つ処理
-				if (charaDir == LEFT) {
-					if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
-						if (isbulletshot == 0) {
-							isbulletshot = 1;
-							playerBulletPosX = player.pos.x;
-							playerBulletPosY = player.pos.y;
-							playerLife -= 30;
+				if (canShot == 1) {
+					//プレイヤーが左向きに弾を撃つ処理
+					if (charaDir == LEFT) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+							if (isbulletshot == 0) {
+								isbulletshot = 1;
+								playerBulletPosX = player.pos.x;
+								playerBulletPosY = player.pos.y;
+								playerLife -= 30;
+							}
+						}
+						if (isbulletshot == 1) {
+							playerBulletPosX = playerBulletPosX - bulletspeed;
 						}
 					}
-					if (isbulletshot == 1) {
-						playerBulletPosX = playerBulletPosX - bulletspeed;
-					}
-				}
 
-				//プレイヤーが右向きに弾を撃つ処理
-				else if (charaDir == RIGHT) {
-					if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
-						if (isbulletshot == 0) {
-							isbulletshot = 1;
-							playerBulletPosX = player.pos.x;
-							playerBulletPosY = player.pos.y;
-							playerLife -= 30;
+					//プレイヤーが右向きに弾を撃つ処理
+					else if (charaDir == RIGHT) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+							if (isbulletshot == 0) {
+								isbulletshot = 1;
+								playerBulletPosX = player.pos.x;
+								playerBulletPosY = player.pos.y;
+								playerLife -= 30;
+							}
+						}
+						if (isbulletshot == 1) {
+							playerBulletPosX = playerBulletPosX + bulletspeed;
 						}
 					}
-					if (isbulletshot == 1) {
-						playerBulletPosX = playerBulletPosX + bulletspeed;
-					}
-				}
 
+				}
 			}
 			//左向きの当たり判定
 			if (charaDir == LEFT) {
 				int tmpPosX = playerBulletPosX - bulletRadius;
 				int tmpPosY = playerBulletPosY - bulletRadius;
 				int tmpPosY1 = playerBulletPosY + bulletRadius;
+
+				//弾の判定
 				if (map[tmpPosY / 128][tmpPosX / 128] == BLOCK || map[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
+					//パーティクル
 					for (int num = 0; num < NUM1; num++) {
 						if (particle1[num].isActive == 0) {
 							particle1[num].isActive = 1;
@@ -490,8 +520,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				int tmpPosX = playerBulletPosX + bulletRadius;
 				int tmpPosY = playerBulletPosY - bulletRadius;
 				int tmpPosY1 = playerBulletPosY + bulletRadius;
+
+				//弾の判定
 				if (map[tmpPosY / 128][tmpPosX / 128] == BLOCK || map[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
+					//パーティクル
 					for (int num = 0; num < NUM1; num++) {
 						if (particle1[num].isActive == 0) {
 							particle1[num].isActive = 1;
@@ -517,6 +550,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					playerBulletPosY = player.pos.y;
 
 				}
+
+				
+
 			}
 
 			for (int num = 0; num < NUM1; num++) {
@@ -538,7 +574,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 			}
+			if (galle == 1) {
+				Novice::ScreenPrintf(0, 0, "galle 1 　");
+				galleTimer +=1 ;
+				player.pos.x += player.speed;
+				if (kWindowWidth+player.radius < player.pos.x) {
+					if ( galleTimer >=120) {
+						gamescene = RESULT1;
+					}
+				}
+				
 
+
+			}
 
 			//スクロール処理
 			if (player.pos.x >= kWindowWidth + scrollStartX) {
@@ -552,9 +600,53 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			break;
 
-			case GAMEOVER:
+		case GAMEOVER:
+			Novice::ScreenPrintf(0, 0, "GAME OVER 　");
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
+				
+			}
+			
+		
+			
 
-				break;
+			break;
+		case RESULT1:
+			galleTimer = 0;
+			galle = 0;
+			Novice::ScreenPrintf(0, 0, "case RESULT1 　");
+			 charaDir = RIGHT;
+
+			 playerLife = 1000;
+
+			//スクロール処理
+			 scrollStartX = 400;
+			 lineY = 0;
+
+			 scrollX = 0;
+			
+			 monitorX = 0;
+
+			//スティック操作
+			stickPosX = 0;
+			 stickPosY = 0;
+
+			/*******************
+			超音波の宣言ここから
+			*******************/
+			 playerBulletPosX = -200;
+			 playerBulletPosY = -200;
+			 bulletspeed = 10;
+			 bulletRadius = 32;
+			 isbulletshot = 0;
+			 bulletMonitorX = 0;
+			/*******************
+			超音波の宣言ここまで
+			*******************/
+			//クールタイム
+			 canShot = false;
+			 canShotTime = 10;
+
+			break;
 
 		}
 
@@ -587,6 +679,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						monitorX = x * 128 - scrollX;
 						Novice::DrawSprite(
 							monitorX, y * 128, gh1, 1, 1, 0.0f, RED);
+					}
+					if (map[y][x] == 3) {
+						monitorX = x * 128 - scrollX;
+						Novice::DrawSprite(
+							monitorX, y * 128, gh1, 1, 1, 0.0f, BLUE);
 					}
 				}
 			}
