@@ -153,6 +153,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int stickPosX = 0;
 	int stickPosY = 0;
 
+	//コントローラーのボタン宣言		
+	int isBButtonPress = 0;//Bボタン
+	int isAButtonPress = 0;//Aボタン
+	int isStartButtonPress = 0;//Startボタン
+
+
 	/*******************
 	超音波の宣言ここから
 	*******************/
@@ -315,13 +321,26 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Novice::SetWindowMode(kFullscreen);
 
+		//終わりのボタン
+		if (Novice::IsTriggerButton(0, kPadButton4)) {
+			isStartButtonPress = 1;
+		}
+
+
+
 		//ゲームシーン
 		switch (gamescene)
 		{
 			//タイトル
 		case TITLE:
+			
+			//Bボタン
+			if (Novice::IsTriggerButton(0, kPadButton11)) {
+				isBButtonPress = 1;
+			}
+
 			//チュートリアルに移行処理
-			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = TUTORIAL;
 			}
 
@@ -368,9 +387,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			playerPosOldX = player.pos.x;
 			playerPosOldY = player.pos.y;
 
+
+			//コントローラーのボタン操作
+			// Bボタン
+			if (Novice::IsTriggerButton(0, kPadButton11)) {
+				isBButtonPress = 1;
+			}
+
+			//Aボタン
+			if (Novice::IsTriggerButton(0, kPadButton10)) {
+				isAButtonPress = 1;
+			}
+
+
+
 			if (galle == 0) {
 				//スティック操作
 				Novice::GetAnalogInputLeft(0, &stickPosX, &stickPosY);
+
+
+
+
+
+
+
 
 				//キーボード操作
 				if (keys[DIK_W] || stickPosY <= -3000) {
@@ -452,7 +492,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//血の判定
 			if (map[leftTopY][leftTopX] == BLOOD) {
 
-				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 					map[leftTopY][leftTopX] = NONE;
 					isBlood = 1;
 				}
@@ -460,7 +500,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			else
 				if (map[leftBottomY][leftBottomX] == BLOOD) {
-					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 						map[leftBottomY][leftBottomX] = NONE;
 						isBlood = 1;
 					}
@@ -468,7 +508,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				else
 					if (map[rightTopY][rightTopX] == BLOOD) {
-						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 							map[rightTopY][rightTopX] = NONE;
 							isBlood = 1;
 						}
@@ -476,7 +516,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					else
 						if (map[rightBottomY][rightBottomX] == BLOOD) {
-							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 								map[rightBottomY][rightBottomX] = NONE;
 								isBlood = 1;
 							}
@@ -502,7 +542,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (canShot == 1) {
 					//プレイヤーが左向きに弾を撃つ処理
 					if (charaDir == LEFT) {
-						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 							if (isbulletshot == 0) {
 								isbulletshot = 1;
 								playerBulletPosX = player.pos.x;
@@ -517,7 +557,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					//プレイヤーが右向きに弾を撃つ処理
 					else if (charaDir == RIGHT) {
-						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 							if (isbulletshot == 0) {
 								isbulletshot = 1;
 								playerBulletPosX = player.pos.x;
@@ -656,7 +696,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case GAMEOVER:
 			Novice::ScreenPrintf(0, 0, "GAME OVER 　");
-			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
+			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 
 			}
 
@@ -688,6 +728,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			stickPosX = 0;
 			stickPosY = 0;
 
+
+
 			/*******************
 			超音波の宣言ここから
 			*******************/
@@ -704,7 +746,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			canShot = false;
 			canShotTime = 10;
 
-			if (keys[DIK_SPACE]) {
+			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE1;
 			}
 
@@ -834,7 +876,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//血の判定
 			if (map1[leftTopY][leftTopX] == BLOOD) {
 
-				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 					map1[leftTopY][leftTopX] = NONE;
 					isBlood = 1;
 				}
@@ -842,7 +884,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			else
 				if (map1[leftBottomY][leftBottomX] == BLOOD) {
-					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 						map1[leftBottomY][leftBottomX] = NONE;
 						isBlood = 1;
 					}
@@ -850,7 +892,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 				else
 					if (map1[rightTopY][rightTopX] == BLOOD) {
-						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 							map1[rightTopY][rightTopX] = NONE;
 							isBlood = 1;
 						}
@@ -858,7 +900,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 					else
 						if (map1[rightBottomY][rightBottomX] == BLOOD) {
-							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN]) {
+							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
 								map1[rightBottomY][rightBottomX] = NONE;
 								isBlood = 1;
 							}
@@ -884,7 +926,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				if (canShot == 1) {
 					//プレイヤーが左向きに弾を撃つ処理
 					if (charaDir == LEFT) {
-						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 							if (isbulletshot == 0) {
 								isbulletshot = 1;
 								playerBulletPosX = player.pos.x;
@@ -899,7 +941,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 					//プレイヤーが右向きに弾を撃つ処理
 					else if (charaDir == RIGHT) {
-						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE]) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 							if (isbulletshot == 0) {
 								isbulletshot = 1;
 								playerBulletPosX = player.pos.x;
@@ -1053,7 +1095,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			stickPosX = 0;
 			stickPosY = 0;
 
-			/*******************
+			//コントローラーのボタン宣言		
+			int isBButtonPress = 0;//Bボタン
+			int isAButtonPress = 0;//Aボタン
+			int isStartButtonPress = 0;//Startボタン
+
+			/***************
 			超音波の宣言ここから
 			*******************/
 			playerBulletPosX = -200;
@@ -1069,7 +1116,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			canShot = false;
 			canShotTime = 10;
 
-			if (keys[DIK_SPACE]) {
+			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE2;
 			}
 
@@ -1203,7 +1250,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::EndFrame();
 
 		// ESCキーが押されたらループを抜ける
-		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
+		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0 || Novice::IsTriggerButton(0, kPadButton4)) {
 			break;
 		}
 	}
