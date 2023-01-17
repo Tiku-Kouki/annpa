@@ -1212,6 +1212,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case RESULT1:
 
+
 			break;
 
 		}
