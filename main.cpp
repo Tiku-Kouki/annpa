@@ -28,7 +28,7 @@ typedef struct Player {
 };
 
 Player player{
-	400,200,4.0f,32.0f
+	400,512,4.0f,32.0f
 };
 
 //ブロックの構造体
@@ -104,7 +104,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		0,
 		0
 	};
-
 
 	float width = 0;
 	float movePoint = 0;
@@ -254,7 +253,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (map[y][x] == 3) {
 				block[y][x].state = Galle;
 			}
-
 		}
 	}
 
@@ -266,8 +264,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			block1[y][x].pos.y = y * blockSize;
 			block1[y][x].size.x = 128;
 			block1[y][x].size.y = 128;
-
-
 
 			//ブロックがある場合
 			if (map1[y][x] == 1) {
@@ -325,8 +321,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (Novice::IsTriggerButton(0, kPadButton4)) {
 			isStartButtonPress = 1;
 		}
-
-
 
 		//ゲームシーン
 		switch (gamescene)
@@ -404,12 +398,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (galle == 0) {
 				//スティック操作
 				Novice::GetAnalogInputLeft(0, &stickPosX, &stickPosY);
-
-
-
-
-
-
 
 
 				//キーボード操作
@@ -601,7 +589,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
-
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
@@ -638,7 +625,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
-
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
@@ -668,6 +654,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 			}
+
 			if (galle == 1) {
 				Novice::ScreenPrintf(0, 0, "galle 1 　");
 				galleTimer += 1;
@@ -677,9 +664,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						gamescene = RESULT;
 					}
 				}
-
-
-
 			}
 
 			//スクロール処理
@@ -690,8 +674,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				scrollX = player.pos.x - scrollStartX;
 			}
 
-			//PmonitorX = player.pos.x - scrollX;
-
 			break;
 
 		case GAMEOVER:
@@ -700,15 +682,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			}
 
-
-
-
 			break;
 
 		case RESULT:
 
 			player.pos.x = 400;
-			player.pos.y = 200;
+			player.pos.y = 512;
 
 			galleTimer = 0;
 			galle = 0;
@@ -727,8 +706,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//スティック操作
 			stickPosX = 0;
 			stickPosY = 0;
-
-
 
 			/*******************
 			超音波の宣言ここから
@@ -1022,14 +999,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
-
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
 
 				}
-
-
 
 			}
 
