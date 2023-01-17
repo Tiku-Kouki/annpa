@@ -15,7 +15,7 @@ enum MapInfo {
 };
 
 //構造体の宣言 ここから
-
+//aiu
 typedef struct Vector2 {
 	float x;
 	float y;
