@@ -11,7 +11,9 @@ enum MapInfo {
 	NONE, // 0　(ブロックなし)
 	BLOCK, // 1　(ブロックあり)
 	BLOOD,//2 (血)
-	Galle//3　(ゴール)
+	Galle,//3　(ゴール)
+	UP_NEEDLE,//4 (上向きの鍾乳洞)
+	DOWN_NEEDLE//5 (下向きの鍾乳洞)
 };
 
 //構造体の宣言 ここから
@@ -206,6 +208,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Block block1[mapHeight][mapWidth]{};
 
+	//ステージ2
+	int map2[mapHeight][mapWidth]{
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+		{1,0,0,0,5,5,1,0,0,2,0,0,5,0,5,0,5,0,5,0,5,0,5,0,5,0,5,1,0,1,},
+		{1,0,0,0,0,0,5,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,1,},
+		{1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,2,0,0,0,0,1,1,1,1,1,0,3,},
+		{1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,3,},
+		{1,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,0,0,0,4,0,0,0,0,1,1,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,0,0,1,},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+	};
+
+	Block block2[mapHeight][mapWidth]{};
+
 	int leftTopX;//左上のX座標
 	int leftTopY;//左上のY座標
 	int rightTopX;//右上のX座標
@@ -288,6 +304,53 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//ゴール
 			if (map1[y][x] == 3) {
 				block1[y][x].state = Galle;
+			}
+
+		}
+	}
+
+	//ブロックの状況(ステージ２)
+	for (int y = 0; y < mapHeight; y++) {
+		for (int x = 0; x < mapWidth; x++) {
+			//ブロックの座標、サイズ設定
+			block2[y][x].pos.x = x * blockSize;
+			block2[y][x].pos.y = y * blockSize;
+			block2[y][x].size.x = 128;
+			block2[y][x].size.y = 128;
+
+			//ブロックがある場合
+			if (map2[y][x] == 1) {
+				block2[y][x].state = BLOCK;
+				block2[y][x].imagePos.x = 0;
+				block2[y][x].imagePos.y = 128;
+			}
+
+			//ブロックがない場合
+			if (map2[y][x] == 0) {
+				block2[y][x].state = NONE;
+				block2[y][x].imagePos.x = 128;
+				block2[y][x].imagePos.y = 0;
+			}
+
+			//血がある場合
+			if (map2[y][x] == 2) {
+				block2[y][x].state = BLOOD;
+
+			}
+
+			//ゴール
+			if (map2[y][x] == 3) {
+				block2[y][x].state = Galle;
+			}
+
+			//上向きの鍾乳洞
+			if (map2[y][x] == 4) {
+				block2[y][x].state = UP_NEEDLE;
+			}
+
+			//下向きの鍾乳洞
+			if (map2[y][x] == 5) {
+				block2[y][x].state = DOWN_NEEDLE;
 			}
 
 		}
@@ -1051,6 +1114,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 
 		case RESULT1:
+
+			player.pos.x = 400;
+			player.pos.y = 512;
+
 			galleTimer = 0;
 			galle = 0;
 			charaDir = RIGHT;
@@ -1069,12 +1136,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			stickPosX = 0;
 			stickPosY = 0;
 
-			//コントローラーのボタン宣言		
-			int isBButtonPress = 0;//Bボタン
-			int isAButtonPress = 0;//Aボタン
-			int isStartButtonPress = 0;//Startボタン
-
-			/***************
+			/*******************
 			超音波の宣言ここから
 			*******************/
 			playerBulletPosX = -200;
@@ -1093,7 +1155,334 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE2;
 			}
+			
+			break;
 
+		case STAGE2:
+
+			if (galle == 0) {
+				playerLife--;
+			}
+			if (playerLife <= 0) {
+				gamescene = GAMEOVER;
+			}
+			if (playerLife >= 1000) {
+				playerLife = 1000;
+			}
+
+			//シーンが変わった時のクールタイム
+			if (gamescene == STAGE2) {
+				canShotTime -= 1;
+				if (canShotTime <= 0) {
+					canShot = true;
+				}
+			}
+
+			//右上座標
+			rightTopX = (player.pos.x + player.radius - 1) / blockSize;
+			rightTopY = (player.pos.y - player.radius) / blockSize;
+
+			// 右下座標
+			rightBottomX = (player.pos.x + player.radius - 1) / blockSize;
+			rightBottomY = (player.pos.y + player.radius - 1) / blockSize;
+
+			// 左上座標
+			leftTopX = (player.pos.x - player.radius) / blockSize;
+			leftTopY = (player.pos.y - player.radius) / blockSize;
+
+			// 左下座標
+			leftBottomX = (player.pos.x - player.radius) / blockSize;
+			leftBottomY = (player.pos.y + player.radius - 1) / blockSize;
+
+			//ポジションを仮に代入
+			playerPosOldX = player.pos.x;
+			playerPosOldY = player.pos.y;
+
+			if (galle == 0) {
+				//スティック操作
+				Novice::GetAnalogInputLeft(0, &stickPosX, &stickPosY);
+
+				//キーボード操作
+				if (keys[DIK_W] || stickPosY <= -3000) {
+					leftTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
+					rightTopY = ((player.pos.y - player.speed) - player.radius) / blockSize;
+					//ブロックに当たった時
+					if (map2[rightTopY][rightTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map2[leftTopY][leftTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.y -= player.speed;
+					}
+				}
+
+				if (keys[DIK_S] || stickPosY >= 3000) {
+					leftBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
+					rightBottomY = ((player.pos.y + player.speed) + player.radius - 1) / blockSize;
+					//ブロックに当たった時
+					if (map2[leftBottomY][leftBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map2[rightBottomY][rightBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.y += player.speed;
+					}
+				}
+
+				if (keys[DIK_A] || stickPosX <= -3000) {
+					leftTopX = ((player.pos.x - player.speed) - player.radius) / blockSize;
+					leftBottomX = ((player.pos.x - player.speed) - player.radius) / blockSize;
+					//ブロックに当たった時
+					if (map2[leftTopY][leftTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map2[leftBottomY][leftBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.x -= player.speed;
+					}
+				}
+
+				if (keys[DIK_D] || stickPosX >= 3000) {
+					rightTopX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
+					rightBottomX = ((player.pos.x + player.speed) + player.radius - 1) / blockSize;
+					//ブロックに当たった時
+					if (map2[rightTopY][rightTopX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else if (map2[rightBottomY][rightBottomX] == BLOCK) {
+						player.pos.x = playerPosOldX;
+						player.pos.y = playerPosOldY;
+					}
+					else {
+						player.pos.x += player.speed;
+					}
+					//ゴール
+					if (map2[rightTopY][rightTopX] == Galle) {
+						galle = 1;
+					}
+					else if (map2[rightBottomY][rightBottomX] == Galle) {
+						galle = 1;
+					}
+
+				}
+			}
+			//血の判定
+			if (map2[leftTopY][leftTopX] == BLOOD) {
+
+				if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
+					map2[leftTopY][leftTopX] = NONE;
+					isBlood = 1;
+				}
+
+			}
+			else
+				if (map2[leftBottomY][leftBottomX] == BLOOD) {
+					if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
+						map2[leftBottomY][leftBottomX] = NONE;
+						isBlood = 1;
+					}
+
+				}
+				else
+					if (map2[rightTopY][rightTopX] == BLOOD) {
+						if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
+							map2[rightTopY][rightTopX] = NONE;
+							isBlood = 1;
+						}
+
+					}
+					else
+						if (map2[rightBottomY][rightBottomX] == BLOOD) {
+							if (keys[DIK_RETURN] == 0 && preKeys[DIK_RETURN] || Novice::IsTriggerButton(0, kPadButton10)) {
+								map2[rightBottomY][rightBottomX] = NONE;
+								isBlood = 1;
+							}
+
+						}
+			if (isBlood == 1) {
+
+				playerLife += 300;
+				isBlood = 0;
+			}
+
+
+			if (galle == 0) {
+
+				if (isbulletshot == 0) {
+					if (keys[DIK_A] || stickPosX <= -3000) {
+						charaDir = LEFT;
+					}
+					if (keys[DIK_D] || stickPosX >= 3000) {
+						charaDir = RIGHT;
+					}
+				}
+				if (canShot == 1) {
+					//プレイヤーが左向きに弾を撃つ処理
+					if (charaDir == LEFT) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
+							if (isbulletshot == 0) {
+								isbulletshot = 1;
+								playerBulletPosX = player.pos.x;
+								playerBulletPosY = player.pos.y;
+								playerLife -= 30;
+							}
+						}
+						if (isbulletshot == 1) {
+							playerBulletPosX = playerBulletPosX - bulletspeed;
+						}
+					}
+
+					//プレイヤーが右向きに弾を撃つ処理
+					else if (charaDir == RIGHT) {
+						if (keys[DIK_SPACE] == 0 && preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
+							if (isbulletshot == 0) {
+								isbulletshot = 1;
+								playerBulletPosX = player.pos.x;
+								playerBulletPosY = player.pos.y;
+								playerLife -= 30;
+							}
+						}
+						if (isbulletshot == 1) {
+							playerBulletPosX = playerBulletPosX + bulletspeed;
+						}
+					}
+
+				}
+			}
+			//左向きの当たり判定
+			if (charaDir == LEFT) {
+				int tmpPosX = playerBulletPosX - bulletRadius;
+				int tmpPosY = playerBulletPosY - bulletRadius;
+				int tmpPosY1 = playerBulletPosY + bulletRadius;
+
+				//弾の判定
+				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map1[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
+
+					//パーティクル
+					for (int num = 0; num < NUM1; num++) {
+						if (particle1[num].isActive == 0) {
+							particle1[num].isActive = 1;
+							particle1[num].width = 10.0f;
+							particle1[num].isActiveTime = 0;
+							particle1[num].color = WHITE;
+							particle1[num].speed = (rand() % 5 + 5) * 0.1f + rand() % 2 + 1;
+							particle1[num].velocity.x = particle1[num].speed * cosf(degree * (M_PI / 180.0f)) - particle1[num].speed * sinf(degree * (M_PI / 180.0f));
+							particle1[num].velocity.y = particle1[num].speed * sinf(degree * (M_PI / 180.0f)) + particle1[num].speed * cosf(degree * (M_PI / 180.0f));
+							degree += 7.2f + (rand() % 10 - 4);
+							particle1[num].possition.x = playerBulletPosX;
+							particle1[num].possition.y = playerBulletPosY;
+							if (degree > 360.0f) {
+								degree = 0;
+								break;
+							}
+						}
+					}
+
+
+					isbulletshot = 0;
+					playerBulletPosX = player.pos.x;
+					playerBulletPosY = player.pos.y;
+
+				}
+			}
+
+			//右向きの当たり判定処理
+			if (charaDir == RIGHT) {
+				int tmpPosX = playerBulletPosX + bulletRadius;
+				int tmpPosY = playerBulletPosY - bulletRadius;
+				int tmpPosY1 = playerBulletPosY + bulletRadius;
+
+				//弾の判定
+				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map1[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
+
+					//パーティクル
+					for (int num = 0; num < NUM1; num++) {
+						if (particle1[num].isActive == 0) {
+							particle1[num].isActive = 1;
+							particle1[num].width = 10.0f;
+							particle1[num].isActiveTime = 0;
+							particle1[num].color = WHITE;
+							particle1[num].speed = (rand() % 5 + 5) * 0.1f + rand() % 2 + 1;
+							particle1[num].velocity.x = particle1[num].speed * cosf(degree * (M_PI / 180.0f)) - particle1[num].speed * sinf(degree * (M_PI / 180.0f));
+							particle1[num].velocity.y = particle1[num].speed * sinf(degree * (M_PI / 180.0f)) + particle1[num].speed * cosf(degree * (M_PI / 180.0f));
+							particle1[num].possition.x = playerBulletPosX;
+							particle1[num].possition.y = playerBulletPosY;
+							degree += 7.2f + (rand() % 10 - 4);
+							if (degree > 360.0f) {
+								degree = 0;
+								break;
+							}
+						}
+					}
+
+					isbulletshot = 0;
+					playerBulletPosX = player.pos.x;
+					playerBulletPosY = player.pos.y;
+
+				}
+
+			}
+
+			for (int num = 0; num < NUM1; num++) {
+				if (particle1[num].isActive == 1) {
+					particle1[num].isActiveTime += 1;
+					particle1[num].possition.x += particle1[num].velocity.x;
+					particle1[num].possition.y += particle1[num].velocity.y;
+					if (particle1[num].isActiveTime % 45 == 0) {
+						particle1[num].color = 0xFFFFFF21;
+					}
+					else if (particle1[num].isActiveTime % 30 == 0) {
+						particle1[num].color = 0xFFFFFF39;
+					}
+					else if (particle1[num].isActiveTime % 15 == 0) {
+						particle1[num].color = 0xFFFFFF40;
+					}
+					if (particle1[num].isActiveTime > 60) {
+						particle1[num].isActive = 0;
+					}
+				}
+			}
+			if (galle == 1) {
+				Novice::ScreenPrintf(0, 0, "galle 1 　");
+				galleTimer += 1;
+				player.pos.x += player.speed;
+				if (kWindowWidth + player.radius < player.pos.x) {
+					if (galleTimer >= 120) {
+						gamescene = RESULT1;
+					}
+				}
+
+
+
+			}
+
+			//スクロール処理
+			if (player.pos.x >= kWindowWidth + scrollStartX) {
+				scrollX = kWindowWidth;
+			}
+			else if (player.pos.x >= scrollStartX) {
+				scrollX = player.pos.x - scrollStartX;
+			}
+
+
+			break;
+
+		case RESULT2:
+
+			
 			break;
 
 		}
@@ -1215,6 +1604,53 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			break;
 
+		case STAGE2:
+
+			//ブロックの描画
+			for (int y = 0; y < 8; y++) {
+				for (int x = 0; x < 30; x++) {
+					if (map2[y][x] == 1) {
+						Novice::DrawSprite(
+							x * 128 - scrollX, y * 128, gh1, 1, 1, 0.0f, WHITE);
+					}
+					if (map2[y][x] == 2) {
+						monitorX = x * 128 - scrollX;
+						Novice::DrawSprite(
+							monitorX, y * 128, gh1, 1, 1, 0.0f, RED);
+					}
+					if (map2[y][x] == 3) {
+						monitorX = x * 128 - scrollX;
+						Novice::DrawSprite(
+							monitorX, y * 128, gh1, 1, 1, 0.0f, BLUE);
+					}
+				}
+			}
+
+			Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
+
+			if (isbulletshot == 1) {
+				if (charaDir == RIGHT) {
+					Novice::DrawBox(playerBulletPosX - scrollX - bulletRadius, playerBulletPosY - bulletRadius, bulletRadius * 2, bulletRadius * 2, 0.0f, 0xFFFFFFFF, kFillModeSolid);
+				}
+				else if (charaDir == LEFT) {
+					Novice::DrawBox(playerBulletPosX - scrollX - bulletRadius, playerBulletPosY - bulletRadius, bulletRadius * 2, bulletRadius * 2, 0.0f, 0xFFFFFFFF, kFillModeSolid);
+				}
+			}
+
+			for (int num = 0; num < NUM1; num++) {
+				if (particle1[num].isActive == 1) {
+					Novice::DrawBox(particle1[num].possition.x - scrollX - particle1[num].width / 2, particle1[num].possition.y - particle1[num].width / 2,
+						particle1[num].width, particle1[num].width, 0.0f, particle1[num].color, kFillModeSolid);
+				}
+			}
+
+			Novice::DrawEllipse(player.pos.x - scrollX, player.pos.y, player.radius, player.radius, 0.0f, RED, kFillModeSolid);
+
+			break;
+
+		case RESULT2:
+
+			break;
 		}
 
 		///
