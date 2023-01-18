@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h> 
 #include <stdlib.h>
+#include <Luminous.h>
 
 const char kWindowTitle[] = "暗波";
 const int kWindowWidth = 1920;
@@ -52,6 +53,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
 	char preKeys[256] = { 0 };
+
+	//ファイル分けのやつ
+	Luminous* luminous = new Luminous;
 
 	//シーン切り替えの宣言
 	enum Gamescene {
@@ -176,6 +180,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//クールタイム
 	int canShot = false;
 	int canShotTime = 10;
+
+	//明るくなっている間
+	int islight = 0;
+	int light = 120;
 
 	/*********************
 	マップチップ配置ここから
@@ -380,6 +388,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		Novice::SetWindowMode(kFullscreen);
 
+
+
 		//終わりのボタン
 		if (Novice::IsTriggerButton(0, kPadButton4)) {
 			isStartButtonPress = 1;
@@ -390,7 +400,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		{
 			//タイトル
 		case TITLE:
-			
+
 			//Bボタン
 			if (Novice::IsTriggerButton(0, kPadButton11)) {
 				isBButtonPress = 1;
@@ -405,6 +415,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//チュートリアル
 		case TUTORIAL:
+
+			luminous->Update();
+
+			islight = 0;
 
 			if (galle == 0) {
 				playerLife--;
@@ -652,6 +666,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
+
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
@@ -688,6 +714,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
+
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
@@ -696,6 +734,30 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 
+			}
+
+			if (islight == 1) {
+				//明るくする
+				if (luminous->value_ == luminous->valueMax_) {
+					luminous->SetFade(true);
+				}
+
+			}
+
+			if (!luminous->GetFade()) {
+				if (luminous->value_ == luminous->valueMin_) {
+					light--;
+				}
+			}
+
+			//暗くする
+			if (light <= 0) {
+				if (luminous->value_ == luminous->valueMin_) {
+					luminous->SetFade(false);
+					islight = 0;
+					light = 120;
+				}
+			
 			}
 
 			for (int num = 0; num < NUM1; num++) {
@@ -793,6 +855,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 
 		case STAGE1:
+
+			luminous->Update();
+
+			islight = 0;
 
 			if (galle == 0) {
 				playerLife--;
@@ -1025,12 +1091,47 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
 
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
 
 				}
+			}
+
+			if (islight == 1) {
+				//明るくする
+				if (luminous->value_ == luminous->valueMax_) {
+					luminous->SetFade(true);
+				}
+
+			}
+
+			if (!luminous->GetFade()) {
+				if (luminous->value_ == luminous->valueMin_) {
+					light--;
+				}
+			}
+
+			//暗くする
+			if (light <= 0) {
+				if (luminous->value_ == luminous->valueMin_) {
+					luminous->SetFade(false);
+					islight = 0;
+					light = 120;
+				}
+
 			}
 
 			//右向きの当たり判定処理
@@ -1062,10 +1163,46 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
+
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
 
+				}
+
+			}
+
+			if (islight == 1) {
+				//明るくする
+				if (luminous->value_ == luminous->valueMax_) {
+					luminous->SetFade(true);
+				}
+
+			}
+
+			if (!luminous->GetFade()) {
+				if (luminous->value_ == luminous->valueMin_) {
+					light--;
+				}
+			}
+
+			//暗くする
+			if (light <= 0) {
+				if (luminous->value_ == luminous->valueMin_) {
+					luminous->SetFade(false);
+					islight = 0;
+					light = 120;
 				}
 
 			}
@@ -1110,7 +1247,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			else if (player.pos.x >= scrollStartX) {
 				scrollX = player.pos.x - scrollStartX;
 			}
-			
+
 			break;
 
 		case RESULT1:
@@ -1155,10 +1292,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE2;
 			}
-			
+
 			break;
 
 		case STAGE2:
+
+			luminous->Update();
+
+			islight = 0;
 
 			if (galle == 0) {
 				playerLife--;
@@ -1391,12 +1532,47 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
 
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
 
 				}
+			}
+
+			if (islight == 1) {
+				//明るくする
+				if (luminous->value_ == luminous->valueMax_) {
+					luminous->SetFade(true);
+				}
+
+			}
+
+			if (!luminous->GetFade()) {
+				if (luminous->value_ == luminous->valueMin_) {
+					light--;
+				}
+			}
+
+			//暗くする
+			if (light <= 0) {
+				if (luminous->value_ == luminous->valueMin_) {
+					luminous->SetFade(false);
+					islight = 0;
+					light = 120;
+				}
+
 			}
 
 			//右向きの当たり判定処理
@@ -1428,10 +1604,46 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						}
 					}
 
+					/*******************
+					明暗処理　ここから
+					*******************/
+
+					if (islight == 0) {
+						islight = 1;
+					}
+
+					/*******************
+					明暗処理　ここまで
+					*******************/
+
 					isbulletshot = 0;
 					playerBulletPosX = player.pos.x;
 					playerBulletPosY = player.pos.y;
 
+				}
+
+			}
+
+			if (islight == 1) {
+				//明るくする
+				if (luminous->value_ == luminous->valueMax_) {
+					luminous->SetFade(true);
+				}
+
+			}
+
+			if (!luminous->GetFade()) {
+				if (luminous->value_ == luminous->valueMin_) {
+					light--;
+				}
+			}
+
+			//暗くする
+			if (light <= 0) {
+				if (luminous->value_ == luminous->valueMin_) {
+					luminous->SetFade(false);
+					islight = 0;
+					light = 120;
 				}
 
 			}
@@ -1461,7 +1673,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				player.pos.x += player.speed;
 				if (kWindowWidth + player.radius < player.pos.x) {
 					if (galleTimer >= 120) {
-						gamescene = RESULT1;
+						gamescene = RESULT2;
 					}
 				}
 
@@ -1482,7 +1694,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case RESULT2:
 
-			
+
 			break;
 
 		}
@@ -1505,6 +1717,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case TUTORIAL:
 
+			luminous->Draw();
+
 			//ブロックの描画
 			for (int y = 0; y < 8; y++) {
 				for (int x = 0; x < 30; x++) {
@@ -1524,6 +1738,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 					}
 				}
 			}
+
+			luminous->Draw();
 
 			Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
 
@@ -1577,6 +1793,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
+			luminous->Draw();
+
 			Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
 
 			if (isbulletshot == 1) {
@@ -1626,6 +1844,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				}
 			}
 
+			luminous->Draw();
+
 			Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
 
 			if (isbulletshot == 1) {
@@ -1653,6 +1873,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+
 		///
 		/// ↑描画処理ここまで
 		///
@@ -1665,6 +1886,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 	}
+
+	delete luminous;
 
 	// ライブラリの終了
 	Novice::Finalize();
