@@ -180,6 +180,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//クールタイム
 	int canShot = false;
 	int canShotTime = 10;
+	//ダメージ
+	float isDamag = false;
+	float DamagTimer = 0;
+
 
 	//明るくなっている間
 	int islight = 0;
@@ -408,7 +412,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//チュートリアルに移行処理
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
-				gamescene = TUTORIAL;
+				gamescene = STAGE2;
 			}
 
 			break;
@@ -847,6 +851,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			//クールタイム
 			canShot = false;
 			canShotTime = 10;
+
+			//ダメージ
+			 isDamag = false;
+			 DamagTimer = 0;
 
 			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE1;
@@ -1289,6 +1297,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			canShot = false;
 			canShotTime = 10;
 
+			//ダメージ
+			 isDamag = false;
+			 DamagTimer = 0;
+
 			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 				gamescene = STAGE2;
 			}
@@ -1461,6 +1473,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 
 			if (galle == 0) {
+				if (isDamag == 0) {
+					//鍾乳石の判定
+					if (map2[leftTopY][leftTopX] == UP_NEEDLE || map2[leftTopY][leftTopX] == DOWN_NEEDLE) {
+						playerLife -= 30;
+
+						isDamag = 1;
+					}
+					else
+						if (map2[leftBottomY][leftBottomX] == UP_NEEDLE || map2[leftBottomY][leftBottomX] == DOWN_NEEDLE) {
+							playerLife -= 30;
+							isDamag = 1;
+						}
+						else
+							if (map2[rightTopY][rightTopX] == UP_NEEDLE || map2[rightTopY][rightTopX] == DOWN_NEEDLE) {
+								playerLife -= 30;
+								isDamag = 1;
+							}
+							else
+								if (map2[rightBottomY][rightBottomX] == UP_NEEDLE || map2[rightBottomY][rightBottomX] == DOWN_NEEDLE) {
+									playerLife -= 30;
+									isDamag = 1;
+								}
+				}
+				if (isDamag == 1) {
+					DamagTimer++;
+					if (DamagTimer > 80) {
+						DamagTimer = 0;
+						isDamag = 0;
+					}
+
+
+				}
+
+
 
 				if (isbulletshot == 0) {
 					if (keys[DIK_A] || stickPosX <= -3000) {
@@ -1840,6 +1886,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 						monitorX = x * 128 - scrollX;
 						Novice::DrawSprite(
 							monitorX, y * 128, gh1, 1, 1, 0.0f, BLUE);
+					}
+					if (map2[y][x] == 4) {
+						monitorX = x * 128 - scrollX;
+						Novice::DrawSprite(
+							monitorX, y * 128, gh1, 1, 1, 0.0f, GREEN);
+					}
+					if (map2[y][x] == 5) {
+						monitorX = x * 128 - scrollX;
+						Novice::DrawSprite(
+							monitorX, y * 128, gh1, 1, 1, 0.0f, GREEN);
 					}
 				}
 			}
