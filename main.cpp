@@ -1556,7 +1556,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				int tmpPosY1 = playerBulletPosY + bulletRadius;
 
 				//弾の判定
-				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map1[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
+				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map2[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
 					//パーティクル
 					for (int num = 0; num < NUM1; num++) {
@@ -1628,7 +1628,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				int tmpPosY1 = playerBulletPosY + bulletRadius;
 
 				//弾の判定
-				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map1[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
+				if (map2[tmpPosY / 128][tmpPosX / 128] == BLOCK || map2[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
 					//パーティクル
 					for (int num = 0; num < NUM1; num++) {
