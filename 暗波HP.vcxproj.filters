@@ -14,9 +14,6 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Luminous">
-      <UniqueIdentifier>{f3d6717e-928b-4ea0-9b25-51ef59b6d824}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -34,9 +31,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
       <Filter>KamataEngine\Adapter</Filter>
-    </ClCompile>
-    <ClCompile Include="Luminous.cpp">
-      <Filter>Luminous</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,9 +111,6 @@
     </ClInclude>
     <ClInclude Include="..\DirectXGame\math\Vector4.h">
       <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Luminous.h">
-      <Filter>Luminous</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
