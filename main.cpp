@@ -412,7 +412,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			//チュートリアルに移行処理
 			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
-				gamescene = STAGE2;
+				gamescene = TUTORIAL;
 			}
 
 			break;
