@@ -17,6 +17,15 @@
     <Filter Include="Luminous">
       <UniqueIdentifier>{f3d6717e-928b-4ea0-9b25-51ef59b6d824}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{79f929a0-44f3-4288-88fa-68b887438c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bullet">
+      <UniqueIdentifier>{3a880e96-efc7-4a7a-afcf-9e91d7970cdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{fc6a3006-6d5d-45d6-a055-27bdaa033899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -37,6 +46,15 @@
     </ClCompile>
     <ClCompile Include="Luminous.cpp">
       <Filter>Luminous</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Stage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +138,18 @@
     </ClInclude>
     <ClInclude Include="Luminous.h">
       <Filter>Luminous</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Struct.h">
+      <Filter>Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Stage</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -92,6 +92,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\TextureManager.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp" />
@@ -99,6 +100,8 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Luminous.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\math\MathUtility.h" />
@@ -106,6 +109,7 @@
     <ClInclude Include="..\DirectXGame\math\Vector2.h" />
     <ClInclude Include="..\DirectXGame\math\Vector3.h" />
     <ClInclude Include="..\DirectXGame\math\Vector4.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\CircleShadow.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DebugCamera.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DirectionalLight.h" />
@@ -128,6 +132,9 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Luminous.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Struct.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
