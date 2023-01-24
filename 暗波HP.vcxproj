@@ -133,6 +133,7 @@
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Luminous.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Struct.h" />
   </ItemGroup>

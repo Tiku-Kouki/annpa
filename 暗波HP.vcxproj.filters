@@ -1,6 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Luminous">
+      <UniqueIdentifier>{f3d6717e-928b-4ea0-9b25-51ef59b6d824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player">
+      <UniqueIdentifier>{79f929a0-44f3-4288-88fa-68b887438c87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bullet">
+      <UniqueIdentifier>{3a880e96-efc7-4a7a-afcf-9e91d7970cdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{fc6a3006-6d5d-45d6-a055-27bdaa033899}</UniqueIdentifier>
+    </Filter>
     <Filter Include="KamataEngine">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
@@ -14,17 +26,8 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Luminous">
-      <UniqueIdentifier>{f3d6717e-928b-4ea0-9b25-51ef59b6d824}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{79f929a0-44f3-4288-88fa-68b887438c87}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Bullet">
-      <UniqueIdentifier>{3a880e96-efc7-4a7a-afcf-9e91d7970cdf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Stage">
-      <UniqueIdentifier>{fc6a3006-6d5d-45d6-a055-27bdaa033899}</UniqueIdentifier>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{ae889b6e-2425-4568-bcd0-66d64eef10ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -150,6 +153,9 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
