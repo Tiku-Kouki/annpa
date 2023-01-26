@@ -1,20 +1,64 @@
 #pragma once
 #include <Novice.h>
 #include"Struct.h"
+#include"Stage.h"
+#include"Bullet.h"
+
+typedef struct Player1 {
+	Vector2 pos;
+	float speed;
+	float radius;
+};
 
 class Player
 {
 public:
-	
-	Vector2 pos;
-	Player();
+	Player(float posX, float posY, float speed, float radius);
 	~Player();
-	int speed_;
-	int radius;
-	int isBulletShot;
-public:
 
+	
+
+	int leftTopX;//左上のX座標
+	int leftTopY;//左上のY座標
+	int rightTopX;//右上のX座標
+	int rightTopY;//右上のY座標
+	int leftBottomX;//左下のX座標
+	int leftBottomY;//左下のY座標
+	int rightBottomX;//右下のX座標
+	int rightBottomY;//右下のY座標
+	int playerPosOldX;//Xに仮に進んだときの変数
+	int playerPosOldY;//Yに仮に進んだときの変数
+	int galle;
+	int galleTimer;
+	//コントローラーのボタン宣言		
+	int isBButtonPress = 0;//Bボタン
+	int isAButtonPress = 0;//Aボタン
+	int isStartButtonPress = 0;//Startボタン
+	//ダメージ
+	float isDamag = false;
+	float DamagTimer = 0;
+	//血のスイッチ
+	int isBlood = 0;
+	//クールタイム
+	int canShot = false;
+	int canShotTime = 10;
+
+	Bullet* bullet;
+	Stage* stage;
+	//キャラの初期方向
+	CharaDir charaDir;
+
+	int gamescene;
+	int playerLife ;
 	void Move(char* keys, char* preKeys);
 	void Draw();
+
+private:
+
+	
+	Player1 player{
+	400,512,4.0f,32.0f
+	};
+	
 };
 

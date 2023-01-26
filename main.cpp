@@ -4,9 +4,19 @@
 #include <stdlib.h>
 #include <Luminous.h>
 
+
 const char kWindowTitle[] = "暗波";
 const int kWindowWidth = 1920;
 const int kWindowHeight = 1024;
+
+
+
+//構造体の宣言 ここから
+//aiu
+typedef struct Vector2 {
+	float x;
+	float y;
+};
 
 enum MapInfo {
 	NONE, // 0　(ブロックなし)
@@ -16,14 +26,6 @@ enum MapInfo {
 	UP_NEEDLE,//4 (上向きの鍾乳洞)
 	DOWN_NEEDLE//5 (下向きの鍾乳洞)
 };
-
-//構造体の宣言 ここから
-//aiu
-typedef struct Vector2 {
-	float x;
-	float y;
-};
-
 typedef struct Player {
 	Vector2 pos;
 	float speed;

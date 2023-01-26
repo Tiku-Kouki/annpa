@@ -13,10 +13,13 @@ Stage::Stage() {
 
 	 monitorX = 0;
 
-	
+	 resources = new Resources;
 	
 
 }
+
+
+
 
 void Stage::Draw() {
 
@@ -26,17 +29,17 @@ void Stage::Draw() {
 		for (int x = 0; x < 30; x++) {
 			if (map[y][x] == 1) {
 				Novice::DrawSprite(
-					x * 128 - scrollX, y * 128, gh1, 1, 1, 0.0f, WHITE);
+					x * 128 - scrollX, y * 128, resources->gh1, 1, 1, 0.0f, WHITE);
 			}
 			if (map[y][x] == 2) {
 				monitorX = x * 128 - scrollX;
 				Novice::DrawSprite(
-					monitorX, y * 128, gh1, 1, 1, 0.0f, RED);
+					monitorX, y * 128, resources->gh1, 1, 1, 0.0f, RED);
 			}
 			if (map[y][x] == 3) {
 				monitorX = x * 128 - scrollX;
 				Novice::DrawSprite(
-					monitorX, y * 128, gh1, 1, 1, 0.0f, BLUE);
+					monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
 			}
 		}
 	}

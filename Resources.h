@@ -1,7 +1,19 @@
 #pragma once
 #include <Novice.h>
+class Resources
+{
+public:
+	int gh1 ;
 
-int gh1 = Novice::LoadTexture("./Resources/block.png");
+	Resources();
+	
+
+private:
+
+};
+
+
+
 
 
 

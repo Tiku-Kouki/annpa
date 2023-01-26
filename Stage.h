@@ -1,11 +1,14 @@
 #pragma once
 #include <Novice.h>
 #include"Struct.h"
-
+#include"Resources.h"
 
 
 class Stage {
 public:
+	Stage();
+	Resources* resources;
+	
 	enum MapInfo {
 		NONE, // 0　(ブロックなし)
 		BLOCK, // 1　(ブロックあり)
@@ -25,16 +28,16 @@ public:
 
 	
 	int blockSize ;//ブロックサイズ
-
+	
 	
 
 	//スクロール処理
-	float scrollStartX = 400;
-	float lineY = 0;
+	float scrollStartX;
+	float lineY ;
 
-	int scrollX = 0;
+	int scrollX ;
 	
-	float monitorX = 0;
+	float monitorX ;
 
 	/*********************
 	マップチップ配置ここから
@@ -73,7 +76,8 @@ public:
 	};
 
 	Block block2[mapHeight][mapWidth]{};
-public:
-	Stage();
+
+
 	void Draw();
+
 };

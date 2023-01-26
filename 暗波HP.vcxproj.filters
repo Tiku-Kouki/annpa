@@ -59,6 +59,9 @@
     <ClCompile Include="Stage.cpp">
       <Filter>Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Resources.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
