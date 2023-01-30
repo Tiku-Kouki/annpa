@@ -1,4 +1,5 @@
 #pragma once
+
 typedef struct Vector2 {
 	float x;
 	float y;
@@ -14,15 +15,30 @@ enum MapInfo {
 };
 enum Gamescene {
 	TITLE,
-	TUTORIAL,
-	RESULT,
 	STAGE,
+	RESULT,
 	CLEAR,
 	GAMEOVER,
+};
+enum GameStage {
+	TUTORIAL,
+	STAGE1,
+	STAGE2,
+	STAGE3,
+	STAGE4,
 };
 enum CharaDir {
 	RIGHT,
 	LEFT,
+};
+struct Circle {
+	Vector2 possition;
+	Vector2 velocity;
+	float width;
+	float speed;
+	int isActive;
+	int isActiveTime;
+	int color;
 };
 const int kWindowWidth = 1920;
 const int kWindowHeight = 1024;

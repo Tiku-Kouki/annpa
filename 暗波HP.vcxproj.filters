@@ -29,6 +29,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{ae889b6e-2425-4568-bcd0-66d64eef10ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="パーティクル">
+      <UniqueIdentifier>{7a6ec9bd-3c61-4451-9f82-741eb7fbd72a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -61,6 +64,9 @@
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>パーティクル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="Resources.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>パーティクル</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

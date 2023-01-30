@@ -3,6 +3,8 @@
 #include"Struct.h"
 #include"Stage.h"
 #include"Bullet.h"
+#include"Luminous.h"
+#include"Particle.h"
 
 typedef struct Player1 {
 	Vector2 pos;
@@ -15,8 +17,6 @@ class Player
 public:
 	Player(float posX, float posY, float speed, float radius);
 	~Player();
-
-	
 
 	int leftTopX;//左上のX座標
 	int leftTopY;//左上のY座標
@@ -34,6 +34,9 @@ public:
 	int isBButtonPress = 0;//Bボタン
 	int isAButtonPress = 0;//Aボタン
 	int isStartButtonPress = 0;//Startボタン
+	//スティック操作
+	int stickPosX = 0;
+	int stickPosY = 0;
 	//ダメージ
 	float isDamag = false;
 	float DamagTimer = 0;
@@ -42,11 +45,16 @@ public:
 	//クールタイム
 	int canShot = false;
 	int canShotTime = 10;
-
+	//明るくなっている間
+	int islight = 0;
+	int light = 120;
+	int charaDir;
 	Bullet* bullet;
 	Stage* stage;
-	//キャラの初期方向
-	CharaDir charaDir;
+	//ファイル分けのやつ
+	Luminous* luminous;
+	
+	Particle* particle;
 
 	int gamescene;
 	int playerLife ;

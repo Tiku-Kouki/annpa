@@ -1,5 +1,5 @@
 #include"Stage.h"
-#include"Resources.h"
+
 
 Stage::Stage() {
 
