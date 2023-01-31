@@ -1,15 +1,18 @@
 #pragma once
 #include <Novice.h>
 #include"Stage.h"
+
 class Bullet
 {
 public:
 	Resources* resources;
 	Stage* stage;
+	
 	Bullet();
 	~Bullet();
+	void Shot(int charaDir);
 	void Update();
-	void Draw();
+	void Draw(int scrollX);
 public:
 	/*******************
 	超音波の宣言ここから
@@ -27,6 +30,6 @@ public:
 	//クールタイム
 	int canShot ;
 	int canShotTime ;
-
+	
 };
 

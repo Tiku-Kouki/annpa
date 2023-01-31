@@ -43,7 +43,7 @@ public:
 	//血のスイッチ
 	int isBlood = 0;
 	//クールタイム
-	int canShot = false;
+	int canShot = 0;
 	int canShotTime = 10;
 	//明るくなっている間
 	int islight = 0;
@@ -58,8 +58,13 @@ public:
 
 	int gamescene;
 	int playerLife ;
+	void Update(char* keys, char* preKeys);
 	void Move(char* keys, char* preKeys);
 	void Draw();
+	void CheckCollision();
+	int tmpPosX ;
+	int tmpPosY ;
+	int tmpPosY1;
 
 private:
 

@@ -2,7 +2,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h> 
 #include <stdlib.h>
-#include"Struct.h"
 #include "Player.h"
 
 
@@ -58,7 +57,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
-		stage->Draw();
+		player->stage->Draw();
 		player->Draw();
 
 		///

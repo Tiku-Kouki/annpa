@@ -26,23 +26,6 @@ void Particle::Move()
 {
 	//パーティクル
 	for (int num = 0; num < NUM1; num++) {
-		if (particle1[num].isActive == 0) {
-			particle1[num].isActive = 1;
-			particle1[num].width = 10.0f;
-			particle1[num].isActiveTime = 0;
-			particle1[num].color = WHITE;
-			particle1[num].speed = (rand() % 5 + 5) * 0.1f + rand() % 2 + 1;
-			particle1[num].velocity.x = particle1[num].speed * cosf(degree * (M_PI / 180.0f)) - particle1[num].speed * sinf(degree * (M_PI / 180.0f));
-			particle1[num].velocity.y = particle1[num].speed * sinf(degree * (M_PI / 180.0f)) + particle1[num].speed * cosf(degree * (M_PI / 180.0f));
-			degree += 7.2f + (rand() % 10 - 4);
-			particle1[num].possition.x = bullet->playerBulletPosX;
-			particle1[num].possition.y = bullet->playerBulletPosY;
-			if (degree > 360.0f) {
-				degree = 0;
-				break;
-			}
-		}
-
 		if (particle1[num].isActive == 1) {
 			particle1[num].isActiveTime += 1;
 			particle1[num].possition.x += particle1[num].velocity.x;
@@ -62,13 +45,39 @@ void Particle::Move()
 		}
 	}
 }
+void Particle::Update(int bulletX, int bulletY)
+{
 
-void Particle::Draw()
+	//パーティクル
+	for (int num = 0; num < NUM1; num++) {
+		if (particle1[num].isActive == 0) {
+			particle1[num].isActive = 1;
+			particle1[num].width = 10.0f;
+			particle1[num].isActiveTime = 0;
+			particle1[num].color = WHITE;
+			particle1[num].speed = (rand() % 5 + 5) * 0.1f + rand() % 2 + 1;
+			particle1[num].velocity.x = particle1[num].speed * cosf(degree * (M_PI / 180.0f)) - particle1[num].speed * sinf(degree * (M_PI / 180.0f));
+			particle1[num].velocity.y = particle1[num].speed * sinf(degree * (M_PI / 180.0f)) + particle1[num].speed * cosf(degree * (M_PI / 180.0f));
+			degree += 7.2f + (rand() % 10 - 4);
+			particle1[num].possition.x = bulletX;
+			particle1[num].possition.y = bulletY;
+			if (degree > 360.0f) {
+				degree = 0;
+				break;
+			}
+		}
+
+
+	}
+}
+
+void Particle::Draw(int scrollX)
 {
 	for (int num = 0; num < NUM1; num++) {
 		if (particle1[num].isActive == 1) {
-			Novice::DrawBox(particle1[num].possition.x - stage->scrollX - particle1[num].width / 2, particle1[num].possition.y - particle1[num].width / 2,
+			Novice::DrawBox(particle1[num].possition.x - scrollX - particle1[num].width / 2, particle1[num].possition.y - particle1[num].width / 2,
 				particle1[num].width, particle1[num].width, 0.0f, particle1[num].color, kFillModeSolid);
 		}
 	}
 }
+

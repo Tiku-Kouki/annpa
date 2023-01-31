@@ -7,7 +7,8 @@ class Particle
 public:
 	Particle();
 	void Move();
-	void Draw();
+	void Draw(int scrollX);
+	void Update(int bulletX, int bulletY);
 	Circle particle1[NUM1]{
 		{0, 0},
 		{0, 0},
