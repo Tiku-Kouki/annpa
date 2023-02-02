@@ -5,6 +5,11 @@ typedef struct Vector2 {
 	float y;
 
 };
+typedef struct Player1 {
+	Vector2 pos;
+	float speed;
+	float radius;
+};
 enum MapInfo {
 	NONE, // 0　(ブロックなし)
 	BLOCK, // 1　(ブロックあり)

@@ -2,16 +2,16 @@
 
 
 
-Player::Player(float posX, float posY, float speed, float radius)
+Player::Player()
 {
 	stage = new Stage;
 	bullet = new Bullet;
 	particle = new  Particle;
 	luminous = new Luminous;
-	player.pos.x = posX;
-	player.pos.y = posY;
-	player.speed = speed;
-	player.radius = radius;
+	player.pos.x = 400;
+	player.pos.y = 512;
+	player.speed = 4.0f;
+	player.radius = 32.0f;
 	galle = 0;
 	galleTimer = 0;
 	//右上座標
@@ -110,6 +110,7 @@ void Player::Update(char* keys, char* preKeys) {
 
 	// 当たり判定
 	CheckCollision();
+	particle->Move();
 	if (islight == 1) {
 		//明るくする
 		if (luminous->value_ == luminous->valueMax_) {
@@ -139,21 +140,21 @@ void Player::CheckCollision()
 {
 	//左向きの当たり判定
 	if (charaDir == LEFT) {
-		 tmpPosX = bullet->playerBulletPosX - bullet->bulletRadius;
-		 tmpPosY = bullet->playerBulletPosY - bullet->bulletRadius;
-		 tmpPosY1 = bullet->playerBulletPosY + bullet->bulletRadius;
-		
+		tmpPosX =bullet->playerBulletPosX - bullet->bulletRadius;
+		tmpPosY =bullet->playerBulletPosY - bullet->bulletRadius;
+		tmpPosY1 = bullet->playerBulletPosY +bullet->bulletRadius;
+
 		//弾の判定
 		if (stage->map[tmpPosY / 128][tmpPosX / 128] == BLOCK || stage->map[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
 			particle->Update(bullet->playerBulletPosX, bullet->playerBulletPosY);
-			particle->Move();
+			
 			/*******************
 			明暗処理　ここから
 			*******************/
 
 			if (islight == 0) {
-				islight = 1;
+			islight = 1;
 			}
 
 			/*******************
@@ -165,21 +166,21 @@ void Player::CheckCollision()
 			bullet->playerBulletPosY = player.pos.y;
 
 		}
-		
+
 
 	}
 
 	//右向きの当たり判定処理
 	if (charaDir == RIGHT) {
-		 tmpPosX = bullet->playerBulletPosX + bullet->bulletRadius;
-		 tmpPosY = bullet->playerBulletPosY - bullet->bulletRadius;
-		 tmpPosY1 = bullet->playerBulletPosY + bullet->bulletRadius;
-		 
+		tmpPosX = bullet->playerBulletPosX +bullet->bulletRadius;
+		tmpPosY = bullet->playerBulletPosY -bullet->bulletRadius;
+		tmpPosY1 = bullet->playerBulletPosY + bullet->bulletRadius;
+
 		//弾の判定
-        if (stage->map[tmpPosY / 128][tmpPosX / 128] == BLOCK || stage->map[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
+		if (stage->map[tmpPosY / 128][tmpPosX / 128] == BLOCK || stage->map[tmpPosY1 / 128][tmpPosX / 128] == BLOCK) {
 
 			particle->Update(bullet->playerBulletPosX, bullet->playerBulletPosY);
-			particle->Move();
+			
 			/*******************
 			明暗処理　ここから
 			*******************/
@@ -197,9 +198,8 @@ void Player::CheckCollision()
 			bullet->playerBulletPosY = player.pos.y;
 
 		}
-		
+
 	}
-	
 
 }
 void Player::Move(char* keys, char* preKeys)
@@ -474,6 +474,7 @@ void Player::Draw() {
 	switch (gamescene)
 	{
 	case STAGE:
+		stage->Draw();
 		luminous->Draw();
 		bullet->Draw(stage->scrollX);
 		particle->Draw(stage->scrollX);

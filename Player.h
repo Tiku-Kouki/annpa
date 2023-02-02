@@ -6,16 +6,13 @@
 #include"Luminous.h"
 #include"Particle.h"
 
-typedef struct Player1 {
-	Vector2 pos;
-	float speed;
-	float radius;
-};
+
 
 class Player
 {
+
 public:
-	Player(float posX, float posY, float speed, float radius);
+	Player();
 	~Player();
 
 	int leftTopX;//ç∂è„ÇÃXç¿ïW
@@ -61,17 +58,24 @@ public:
 	void Update(char* keys, char* preKeys);
 	void Move(char* keys, char* preKeys);
 	void Draw();
+
 	void CheckCollision();
-	int tmpPosX ;
-	int tmpPosY ;
+	int tmpPosX;
+
+	int tmpPosY;
 	int tmpPosY1;
 
-private:
+	int GetPosX() { return player.pos.x; };
+	int GetPosY() { return player.pos.y; };
+	int GetSpeed() { return player.speed; };
+	
+	int GetRadius() { return player.radius; };
 
-	
-	Player1 player{
-	400,512,4.0f,32.0f
-	};
-	
+
+
+
+	Player1 player{};
+
+
 };
 
