@@ -54,12 +54,8 @@ Player::Player()
 	canShotTime = 10;
 	//–¾‚é‚­‚È‚Á‚Ä‚¢‚éŠÔ
 	islight = 0;
-	light = 120;
+	light = 30;
 	charaDir = 0;
-
-	//–¾‚é‚­‚È‚Á‚Ä‚¢‚éŠÔ
-	islight = 0;
-	light = 120;
 
 	tmpPosX = 0;
 	tmpPosY = 0;
@@ -130,7 +126,7 @@ void Player::Update(char* keys, char* preKeys) {
 		if (luminous->value_ == luminous->valueMin_) {
 			luminous->SetFade(false);
 			islight = 0;
-			light = 120;
+			light = 30;
 		}
 
 	}
