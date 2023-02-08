@@ -28,7 +28,7 @@ void Stage::Draw() {
 
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 30; x++) {
-			if (StageSelect == 1) {
+			if (StageSelect == 0) {
 			if (map[y][x] == 1) {
 				Novice::DrawSprite(
 					x * 128 - scrollX, y * 128, resources->gh1, 1, 1, 0.0f, WHITE);
