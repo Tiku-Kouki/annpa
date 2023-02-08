@@ -22,13 +22,11 @@ Stage::Stage() {
 
 
 void Stage::Draw() {
-	
-
-		//ブロックの描画
+	//ブロックの描画
 
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 30; x++) {
-			if (StageSelect == 0) {
+			
 			if (map[y][x] == 1) {
 				Novice::DrawSprite(
 					x * 128 - scrollX, y * 128, resources->gh1, 1, 1, 0.0f, WHITE);
@@ -44,8 +42,22 @@ void Stage::Draw() {
 					monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
 			}
 		
-			}
-			if (StageSelect == 1) {
+			
+			
+				
+		}
+		
+	}
+	
+	
+}
+
+void Stage::Draw1()
+{
+	for (int y = 0; y < 8; y++) {
+		for (int x = 0; x < 30; x++) {
+			
+			
 				if (map1[y][x] == 1) {
 					Novice::DrawSprite(
 						x * 128 - scrollX, y * 128, resources->gh1, 1, 1, 0.0f, WHITE);
@@ -61,7 +73,17 @@ void Stage::Draw() {
 						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
 				}
 
-			}if (StageSelect == 2) {
+			
+		}
+
+	}
+}
+
+void Stage::Draw2()
+{
+	for (int y = 0; y < 8; y++) {
+		for (int x = 0; x < 30; x++) {
+			
 				if (map2[y][x] == 1) {
 					Novice::DrawSprite(
 						x * 128 - scrollX, y * 128, resources->gh1, 1, 1, 0.0f, WHITE);
@@ -87,13 +109,13 @@ void Stage::Draw() {
 						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, GREEN);
 				}
 
-			}
+			
 		}
-		
+
 	}
-	
-	
 }
+
+
 
 void Stage::Reset()
 {

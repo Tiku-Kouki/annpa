@@ -958,8 +958,25 @@ void Player::Move(char* keys, char* preKeys)
 }
 
 void Player::Draw() {
+	
+	
 	if (gamescene == STAGE || gamescene == STAGE1 || gamescene == STAGE2 || gamescene == STAGE3) {
-		stage->Draw();
+		
+		
+		if (gamescene == STAGE) {
+
+			stage->Draw();
+
+		}if (gamescene == STAGE1) {
+
+			stage->Draw1();
+
+		}if (gamescene == STAGE2) {
+
+
+			stage->Draw2();
+
+		}
 		luminous->Draw();
 		bullet->Draw(stage->scrollX);
 		particle->Draw(stage->scrollX);
@@ -968,6 +985,6 @@ void Player::Draw() {
 
 		Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
 	}
-
+	
 	
 }

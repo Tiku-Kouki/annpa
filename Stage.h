@@ -116,5 +116,8 @@ public:
 	};
 
 	void Draw();
+	void Draw1();
+	void Draw2();
+	
 	void Reset();
 };
