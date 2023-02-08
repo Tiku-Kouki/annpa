@@ -3,7 +3,6 @@
 #include <math.h> 
 #include <stdlib.h>
 #include "Player.h"
-#include "Particle.h"
 
 const char kWindowTitle[] = "暗波";
 
@@ -22,11 +21,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	char preKeys[256] = { 0 };
 
 	//ファイル分けのやつ
-	Luminous* luminous = new Luminous;
+	
 	Player* player = new Player;
-	Stage* stage = new Stage;
-	Bullet* bullet = new Bullet;
-	Particle* particle = new Particle;
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -76,7 +73,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 	}
 
-	delete luminous;
+	
 
 	// ライブラリの終了
 	Novice::Finalize();

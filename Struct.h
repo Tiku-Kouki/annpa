@@ -24,14 +24,14 @@ enum Gamescene {
 	RESULT,
 	CLEAR,
 	GAMEOVER,
-};
-enum GameStage {
-	TUTORIAL,
 	STAGE1,
 	STAGE2,
 	STAGE3,
-	STAGE4,
+	RESULT1,
+	RESULT2,
+	RESULT3,
 };
+
 enum CharaDir {
 	RIGHT,
 	LEFT,

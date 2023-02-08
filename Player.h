@@ -55,9 +55,13 @@ public:
 
 	int gamescene;
 	int playerLife ;
+	int playerResai;//Žc‹@
+	int respoonTime;
 	void Update(char* keys, char* preKeys);
 	void Move(char* keys, char* preKeys);
+	
 	void Draw();
+	void Reset();
 
 	void CheckCollision();
 	int tmpPosX;
