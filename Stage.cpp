@@ -23,6 +23,8 @@ Stage::Stage() {
 
 void Stage::Draw() {
 	//ƒuƒƒbƒN‚Ì•`‰æ
+	Novice::DrawSprite(0, 0, resources->bg1, 1, 1, 0.0f, WHITE);
+	
 
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 30; x++) {
@@ -34,12 +36,12 @@ void Stage::Draw() {
 			if (map[y][x] == 2) {
 				monitorX = x * 128 - scrollX;
 				Novice::DrawSprite(
-					monitorX, y * 128, resources->gh1, 1, 1, 0.0f, RED);
+					monitorX, y * 128, resources->blod, 1, 1, 0.0f, WHITE);
 			}
 			if (map[y][x] == 3) {
 				monitorX = x * 128 - scrollX;
 				Novice::DrawSprite(
-					monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
+					monitorX, y * 128, resources->gh2, 1, 1, 0.0f, WHITE);
 			}
 		
 			
@@ -54,6 +56,7 @@ void Stage::Draw() {
 
 void Stage::Draw1()
 {
+	Novice::DrawSprite(0, 0, resources->bg2, 1, 1, 0.0f, WHITE);
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 30; x++) {
 			
@@ -65,12 +68,12 @@ void Stage::Draw1()
 				if (map1[y][x] == 2) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, RED);
+						monitorX, y * 128, resources->blod, 1, 1, 0.0f, WHITE);
 				}
 				if (map1[y][x] == 3) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
+						monitorX, y * 128, resources->gh2, 1, 1, 0.0f, WHITE);
 				}
 
 			
@@ -81,6 +84,7 @@ void Stage::Draw1()
 
 void Stage::Draw2()
 {
+	Novice::DrawSprite(0, 0, resources->bg3, 1, 1, 0.0f, WHITE);
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 30; x++) {
 			
@@ -91,22 +95,22 @@ void Stage::Draw2()
 				if (map2[y][x] == 2) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, RED);
+						monitorX, y * 128, resources->blod, 1, 1, 0.0f, WHITE);
 				}
 				if (map2[y][x] == 3) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, BLUE);
+						monitorX, y * 128, resources->gh2, 1, 1, 0.0f, WHITE);
 				}
 				if (map2[y][x] == 4) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, GREEN);
+						monitorX, y * 128, resources->needU, 1, 1, 0.0f, WHITE);
 				}
 				if (map2[y][x] == 5) {
 					monitorX = x * 128 - scrollX;
 					Novice::DrawSprite(
-						monitorX, y * 128, resources->gh1, 1, 1, 0.0f, GREEN);
+						monitorX, y * 128, resources->needD, 1, 1, 0.0f, WHITE);
 				}
 
 			

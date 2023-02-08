@@ -60,7 +60,7 @@ void Bullet::Draw(int scrollX)
 {
 	if (isbulletshot == 1) {
 		
-	Novice::DrawBox(playerBulletPosX - scrollX - bulletRadius, playerBulletPosY - bulletRadius, bulletRadius * 2, bulletRadius * 2, 0.0f, 0xFFFFFFFF, kFillModeSolid);
+	Novice::DrawSprite(playerBulletPosX - scrollX - bulletRadius, playerBulletPosY - bulletRadius,resources->blt, 1.0, 1.0f,0.0f, 0xFFFFFFFF);
 		
 	}
 }

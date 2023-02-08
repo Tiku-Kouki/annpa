@@ -8,6 +8,7 @@ Player::Player()
 	bullet = new Bullet;
 	particle = new  Particle;
 	luminous = new Luminous;
+	resources = new Resources;
 	player.pos.x = 400;
 	player.pos.y = 512;
 	player.speed = 4.0f;
@@ -958,7 +959,17 @@ void Player::Move(char* keys, char* preKeys)
 }
 
 void Player::Draw() {
-	
+	if (gamescene == GAMEOVER) {
+
+		Novice::DrawSprite(0, 0, resources->gm, 1, 1, 0.0f, WHITE);
+
+	}
+	if (gamescene == RESULT|| gamescene == RESULT1 || gamescene == RESULT2) {
+
+		Novice::DrawSprite(0, 0, resources->cl, 1, 1, 0.0f, WHITE);
+
+	}
+
 	
 	if (gamescene == STAGE || gamescene == STAGE1 || gamescene == STAGE2 || gamescene == STAGE3) {
 		
@@ -966,22 +977,44 @@ void Player::Draw() {
 		if (gamescene == STAGE) {
 
 			stage->Draw();
-
-		}if (gamescene == STAGE1) {
+			luminous->Draw();
+			Novice::DrawSprite(
+				3 * 128 - stage->scrollX, 1 * 128, resources->tu, 1, 1, 0.0f, WHITE);
+			Novice::DrawSprite(
+				5 * 128 - stage->scrollX, 1 * 128, resources->tuB, 1, 1, 0.0f, WHITE);
+			Novice::DrawSprite(
+				15 * 128 - stage->scrollX, 1 * 128, resources->tu1, 1, 1, 0.0f, WHITE);
+			Novice::DrawSprite(
+				15 * 128 - stage->scrollX, 5 * 128, resources->tu1B, 1, 1, 0.0f, WHITE);
+		}
+		if (gamescene == STAGE1) {
 
 			stage->Draw1();
-
-		}if (gamescene == STAGE2) {
-
+			luminous->Draw();
+		}
+		if (gamescene == STAGE2) {
 
 			stage->Draw2();
-
+			luminous->Draw();
 		}
-		luminous->Draw();
+		
 		bullet->Draw(stage->scrollX);
 		particle->Draw(stage->scrollX);
 
-		Novice::DrawEllipse(player.pos.x - stage->scrollX, player.pos.y, player.radius, player.radius, 0.0f, RED, kFillModeSolid);
+		Novice::DrawSprite((player.pos.x - player.radius)- stage->scrollX, player.pos.y - player.radius,resources->ply, 1.0f,1.0f, 0.0f, WHITE);
+		if (playerResai >= 1) {
+			Novice::DrawSprite(10, 50,resources->life, 1.0f,1.0f, 0.0f, WHITE);
+		
+			if (playerResai >= 2) {
+				Novice::DrawSprite(138, 50, resources->life, 1.0f, 1.0f, 0.0f, WHITE);
+				if (playerResai >= 3) {
+
+					Novice::DrawSprite(266, 50, resources->life, 1.0f, 1.0f, 0.0f, WHITE);
+
+				}
+
+			}
+		}
 
 		Novice::DrawBox(900, 50, playerLife, 50, 0.0f, WHITE, kFillModeSolid);
 	}

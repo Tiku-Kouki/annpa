@@ -50,7 +50,7 @@ public:
 	Stage* stage;
 	//ƒtƒ@ƒCƒ‹•ª‚¯‚Ì‚â‚Â
 	Luminous* luminous;
-	
+	Resources* resources;
 	Particle* particle;
 
 	int gamescene;
