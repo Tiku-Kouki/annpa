@@ -951,7 +951,7 @@ void Player::Move(char* keys, char* preKeys)
 
 			if (keys[DIK_SPACE] || Novice::IsTriggerButton(0, kPadButton11)) {
 
-				gamescene = STAGE3;
+				gamescene = TITLE;
 			}
 
 			break;
@@ -969,9 +969,18 @@ void Player::Draw() {
 		Novice::DrawSprite(0, 0, resources->cl, 1, 1, 0.0f, WHITE);
 
 	}
+	if ( gamescene == RESULT2) {
 
+		Novice::DrawSprite(0, 0, resources->gmcl, 1, 1, 0.0f, WHITE);
+
+	}
+	if (gamescene == TITLE) {
+
+		Novice::DrawSprite(0, 0, resources->op, 1, 1, 0.0f, WHITE);
+
+	}
 	
-	if (gamescene == STAGE || gamescene == STAGE1 || gamescene == STAGE2 || gamescene == STAGE3) {
+	if (gamescene == STAGE || gamescene == STAGE1 || gamescene == STAGE2 ) {
 		
 		
 		if (gamescene == STAGE) {
